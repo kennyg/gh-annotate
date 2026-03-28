@@ -84,6 +84,7 @@ func PrintAnnotation(w io.Writer, a annotation.Annotation, tty bool) {
 	}
 }
 
+//nolint:errcheck // terminal display — write errors are unrecoverable
 func printAnnotationColor(w io.Writer, a annotation.Annotation) {
 	tags := ""
 	if len(a.Tags) > 0 {
@@ -108,6 +109,7 @@ func printAnnotationColor(w io.Writer, a annotation.Annotation) {
 	}
 }
 
+//nolint:errcheck // terminal display
 func printAnnotationPlain(w io.Writer, a annotation.Annotation) {
 	tags := ""
 	if len(a.Tags) > 0 {
@@ -129,7 +131,7 @@ func printAnnotationPlain(w io.Writer, a annotation.Annotation) {
 	}
 }
 
-// PrintCommitHeader prints a commit header line.
+//nolint:errcheck // terminal display
 func PrintCommitHeader(w io.Writer, sha, subject, date string, tty bool) {
 	short := sha
 	if len(sha) > 7 {
@@ -145,7 +147,7 @@ func PrintCommitHeader(w io.Writer, sha, subject, date string, tty bool) {
 	}
 }
 
-// PrintLsEntry prints a single line for the ls command.
+//nolint:errcheck // terminal display
 func PrintLsEntry(w io.Writer, sha, subject string, total int, roleCounts map[annotation.Role]int, tty bool) {
 	short := sha
 	if len(sha) > 7 {

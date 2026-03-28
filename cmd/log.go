@@ -118,12 +118,16 @@ func printJSONLines(w *os.File, lines []string, jqExpr string) error {
 			return err
 		}
 		for _, l := range filtered {
-			fmt.Fprintln(w, l)
+			if _, err := fmt.Fprintln(w, l); err != nil {
+				return err
+			}
 		}
 		return nil
 	}
 	for _, l := range lines {
-		fmt.Fprintln(w, l)
+		if _, err := fmt.Fprintln(w, l); err != nil {
+			return err
+		}
 	}
 	return nil
 }

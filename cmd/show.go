@@ -100,7 +100,9 @@ func printJSON(w *os.File, annotations []annotation.Annotation, jqExpr string) e
 		return err
 	}
 	for _, l := range filtered {
-		fmt.Fprintln(w, l)
+		if _, err := fmt.Fprintln(w, l); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -137,9 +139,7 @@ func buildFilterOpts(cmd *cobra.Command) *filter.Options {
 	opts.Author, _ = cmd.Flags().GetString("author")
 	opts.Role, _ = cmd.Flags().GetString("role")
 	if tags, _ := cmd.Flags().GetString("tags"); tags != "" {
-		for _, t := range splitTags(tags) {
-			opts.Tags = append(opts.Tags, t)
-		}
+		opts.Tags = append(opts.Tags, splitTags(tags)...)
 	}
 	if cmd.Flags().Lookup("thread") != nil {
 		opts.Thread, _ = cmd.Flags().GetString("thread")

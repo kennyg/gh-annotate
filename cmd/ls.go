@@ -81,8 +81,13 @@ func runLs(cmd *cobra.Command, args []string) error {
 				Total:      len(annotations),
 				RoleCounts: rc,
 			}
-			b, _ := json.Marshal(entry)
-			fmt.Fprintln(os.Stdout, string(b))
+			b, err := json.Marshal(entry)
+			if err != nil {
+				return err
+			}
+			if _, err := fmt.Fprintln(os.Stdout, string(b)); err != nil {
+				return err
+			}
 		} else {
 			output.PrintLsEntry(os.Stdout, commit, subject, len(annotations), roleCounts, tty)
 		}
